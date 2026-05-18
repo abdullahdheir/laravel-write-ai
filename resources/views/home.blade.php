@@ -1,4 +1,4 @@
-<x-layouts.main-layout title="Home" main-class="pt-24 pb-section-gap max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12
+<x-layout title="Home" main-class="pt-24 pb-section-gap max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12
 gap-8">
 
     <x-slot:style>
@@ -178,4 +178,4 @@ gap-8">
 
     @endsection
 
-</x-layouts.main-layout>
+</x-layout>
