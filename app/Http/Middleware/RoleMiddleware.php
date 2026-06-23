@@ -7,19 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsActive
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (! Auth::check() || !Auth::user()->isActive()) {
-            Auth::logout();
-            return redirect()->route('login')->withErrors(['Your account is not active. Please contact support.']);
-        }
+        if (! Auth::check()) return redirect()->route('login');
+
+        $user = Auth::user();
+
+        if (! $user->hasRoles($roles)) abort(403, 'Unauthorized action.');
 
         return $next($request);
     }
