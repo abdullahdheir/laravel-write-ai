@@ -19,7 +19,7 @@ class Post extends Model
 {
     use SoftDeletes;
 
-    protected $connection = 'mysql';
+    // protected $connection = 'mysql';
     protected $table = 'posts';
     protected $primaryKey = 'id';
     public $incrementing = true;

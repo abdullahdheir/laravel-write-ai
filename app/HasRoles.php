@@ -34,7 +34,7 @@ trait HasRoles
 
     public function hasPermission(string|Model|int $permission): bool
     {
-        return $this->roles->flatMap->permissions->any(function ($p) use ($permission) {
+        return $this->roles->flatMap->permissions->contains(function ($p) use ($permission) {
             if ($permission instanceof Model) {
                 return $p->id = $permission->id;
             }
@@ -56,5 +56,33 @@ trait HasRoles
     public function hasAnyPermission(array $permissions): bool
     {
         return array_any($permissions, fn($p) => $this->hasPermission($p));
+    }
+
+    public function assignRole(string|Model|int $role): void
+    {
+        if ($role instanceof Model) {
+            $this->roles()->attach($role->id);
+        } elseif (is_string($role)) {
+            $roleModel = Role::where('name', '=', $role)->first();
+            if ($roleModel) {
+                $this->roles()->attach($roleModel->id);
+            }
+        } else {
+            $this->roles()->attach($role);
+        }
+    }
+
+    public function removeRole(string|Model|int $role): void
+    {
+        if ($role instanceof Model) {
+            $this->roles()->detach($role->id);
+        } elseif (is_string($role)) {
+            $roleModel = Role::where('name', '=', $role)->first();
+            if ($roleModel) {
+                $this->roles()->detach($roleModel->id);
+            }
+        } else {
+            $this->roles()->detach($role);
+        }
     }
 }

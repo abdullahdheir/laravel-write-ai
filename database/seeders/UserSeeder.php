@@ -17,11 +17,11 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         DB::table('users')->insert([
-            'name' => 'Mohammed Safadi',
-            'email' => 'm@safadi.ps',
+            'name' => 'Abdullah Ashraf',
+            'email' => 'info@abdullahdheir.dev',
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'username' => 'msafadi',
+            'password' => Hash::make('Abdalla100@@'),
+            'username' => 'abdullahdheir',
             'timezone' => 'Asia/Gaza',
             'status' => 'active',
             'created_at' => now(),

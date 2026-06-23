@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Dashboard\PostController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -12,7 +14,7 @@ Route::get('/posts/{slug}', [\App\Http\Controllers\PostController::class, 'show'
 Route::group([
     'as' => 'dashboard.',
     'prefix' => 'dashboard/',
-    'middleware' => ['auth:web', 'verified'],
+    'middleware' => ['auth:web', 'verified', 'active'],
 ], function () {
 
     Route::put('posts/{post}/restore', [PostController::class, 'restore'])
@@ -21,4 +23,9 @@ Route::group([
         ->name('posts.force-delete');
 
     Route::resource('posts', PostController::class);
+
+    Route::resource('users', UserController::class)->middlewareFor('create','permission:users.create');
+
+    Route::resource('roles', RoleController::class);
+
 });
