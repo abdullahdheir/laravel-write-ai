@@ -23,12 +23,12 @@ class UserController extends Controller
     {
         $status = $request->query('status', 'active');
 
-        $users = User::where('status', '=', $status)->paginate(5)->withQueryString();
+        $users = User::where('status', '=', $status)->withTrashed()->withCount('posts')->paginate(5)->withQueryString();
 
         $status_options = array_map(function ($status) {
             return [
                 'name' => ucfirst($status->value),
-                'count' => User::query()->where('status', $status->value)->count(),
+                'count' => User::query()->withTrashed()->where('status', $status->value)->count(),
             ];
         }, UserStatus::cases());
 
@@ -88,5 +88,21 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user) {}
+    public function destroy(User $user)
+    {
+        UserService::delete($user);
+        return redirect()->route('dashboard.users.index')->with('status', 'User deleted successfully.');
+    }
+
+    public function restore(User $user)
+    {
+        UserService::restore($user);
+        return redirect()->route('dashboard.users.index')->with('status', 'User restored successfully.');
+    }
+
+    public function forceDelete(User $user)
+    {
+        UserService::forceDelete($user);
+        return redirect()->route('dashboard.users.index')->with('status', 'User force deleted successfully.');
+    }
 }

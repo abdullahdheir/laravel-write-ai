@@ -27,5 +27,8 @@ Route::group([
     Route::resource('users', UserController::class)->middlewareFor('create','permission:users.create');
 
     Route::resource('roles', RoleController::class);
-
+    Route::put('users/{user}/restore', [UserController::class, 'restore'])
+        ->name('users.restore');
+    Route::delete('users/{user}/force', [UserController::class, 'forceDelete'])
+        ->name('users.force-delete');
 });

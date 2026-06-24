@@ -48,30 +48,12 @@
                         </button>
                     </div>
                 </div>
-                <!-- Bulk Actions Bar (Sticky-ish) -->
-                <div
-                    class="bg-surface-container-low px-4 py-3 rounded-lg flex items-center justify-between border border-outline-variant">
-                    <div class="flex items-center gap-4">
-                        <input class="w-4 h-4 rounded border-outline text-primary focus:ring-primary" type="checkbox" />
-                        <span class="text-metadata font-ui-label font-medium text-on-surface-variant">2 users
-                            selected</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button
-                            class="text-metadata font-ui-label font-semibold text-secondary hover:text-on-surface transition-all">Unpublish</button>
-                        <span class="w-px h-4 bg-outline-variant"></span>
-                        <button
-                            class="text-metadata font-ui-label font-semibold text-error hover:text-on-error-container transition-all">Delete</button>
-                    </div>
-                </div>
                 <!-- User Table/List -->
                 <div class="space-y-4">
                     @foreach ($users as $user)
                         <div
                             class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant hover:border-primary transition-all group">
                             <div class="flex items-start gap-4">
-                                <input class="mt-2 w-4 h-4 rounded border-outline text-primary focus:ring-primary"
-                                    type="checkbox" />
                                 <div class="grow grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                                     <div class="md:col-span-6">
                                         <span class="text-metadata font-metadata text-primary mb-1 block">
@@ -83,7 +65,14 @@
                                                 {{ $user->created_at->format('M j, Y H:i') }}</p>
                                     </div>
                                     <div class="md:col-span-2 flex flex-col">
-
+                                        <span class="text-metadata font-metadata text-outline">Engagement</span>
+                                        <div class="flex items-center gap-4 mt-1">
+                                            <div class="flex items-center gap-1 text-ui-label font-medium">
+                                                <span class="material-symbols-outlined text-[18px]"
+                                                    data-icon="atricle">article</span>
+                                                {{ Illuminate\Support\Number::abbreviate($user->posts_count) }}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="md:col-span-2">
                                         @if ($user->trashed())
@@ -124,12 +113,6 @@
                                                 <span class="material-symbols-outlined" data-icon="edit">edit</span>
                                             </a>
                                         @endif
-                                        <button
-                                            class="p-2 text-on-surface-variant hover:bg-surface-container hover:text-primary rounded-lg transition-all"
-                                            title="Analytics">
-                                            <span class="material-symbols-outlined"
-                                                data-icon="bar_chart">bar_chart</span>
-                                        </button>
                                         <button
                                             onclick="confirm('Are you sure you want to delete this user?')? document.getElementById('deleteuser{{ $user->id }}').submit() : null;"
                                             class="p-2 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all"

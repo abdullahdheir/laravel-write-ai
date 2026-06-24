@@ -81,12 +81,29 @@ class UserService
 
                 $user->save();
 
-                Storage::delete($oldAvatar);
+                Storage::disk('public')->delete($oldAvatar);
             }
 
             $user->syncRoles($clean['roles']);
-            
+
             return $user;
         });
+    }
+
+    public static function delete(User $user)
+    {
+        $user->deleteOrFail();
+    }
+
+    public static function restore(User $user)
+    {
+        $user->restore();
+    }
+
+    public static function forceDelete(User $user)
+    {
+        $oldAvatar = $user->avatar;
+        $user->forceDelete();
+        Storage::disk('public')->delete($oldAvatar);
     }
 }
