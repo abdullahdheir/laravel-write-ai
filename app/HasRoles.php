@@ -85,4 +85,11 @@ trait HasRoles
             $this->roles()->detach($role);
         }
     }
+
+    public function syncRoles(array $roles)
+    {
+        $this->roles()->delete();
+
+        array_map(fn($r) => $this->assignRole($r), $roles);
+    }
 }

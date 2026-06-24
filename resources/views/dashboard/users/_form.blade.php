@@ -24,7 +24,7 @@
                     <x-ui.input-group label="Email Address" name="email" type="email" placeholder="name@example.com"
                         value="{{ old('email', $user->email) }}" />
                     <x-ui.select-group label="Timezone" name="timezone" :options="$timezones"
-                        value="{{ old('timezone', $user->status?->value) }}" />
+                        value="{{ old('timezone', $user->timezone) }}" />
                 </div>
                 <div class="col-span-12 lg:col-span-6">
                     <x-ui.select-group label="Status" name="status" :options="$statusOptions"

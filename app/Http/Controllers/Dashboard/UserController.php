@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Enums\UserStatus;
+use App\Helpers\TimeZoneHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
@@ -41,8 +43,8 @@ class UserController extends Controller
         $user = new User();
         $statusOptions = UserStatus::options();
         $roles = Role::pluck('name', 'id')->toArray();
-        $timezones = timezone_identifiers_list();
-        return view('dashboard.users.create', compact('roles', 'user', 'statusOptions','timezones'));
+        $timezones = TimeZoneHelper::options();
+        return view('dashboard.users.create', compact('roles', 'user', 'statusOptions', 'timezones'));
     }
 
     /**
@@ -52,7 +54,7 @@ class UserController extends Controller
     {
         $user = $this->userService->create($request);
 
-        return redirect()->route('dashboard.users.create')->with('success', 'User created successfully.');
+        return redirect()->route('dashboard.users.index')->with('status', 'User created successfully.');
     }
 
     /**
@@ -68,15 +70,19 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $statusOptions = UserStatus::options();
+        $roles = Role::pluck('name', 'id')->toArray();
+        $timezones = TimeZoneHelper::options();
+        return view('dashboard.users.edit', compact('roles', 'user', 'statusOptions', 'timezones'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        UserService::update($request, $user);
+        return redirect()->route('dashboard.users.index')->with('status', 'User updated successfully.');
     }
 
     /**

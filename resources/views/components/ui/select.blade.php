@@ -9,7 +9,8 @@
     $id = $attributes->get('id') ?: $name;
     $value = $value ?: array_first($options);
 @endphp
-<el-select id="{{ $id }}" name="{{ $name }}" value="{{ $value }}" class="mt-2 block">
+<el-select id="{{ $id }}" name="{{ $name }}" value="{{ $value }}" class="mt-2 block"
+    {{ $multiple ? 'multiple' : '' }}>
     <button type="button"
         class="grid w-full cursor-default h-12 grid-cols-1 rounded-md bg-surface-bright py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
         <el-selectedcontent class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
