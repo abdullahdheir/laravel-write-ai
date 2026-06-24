@@ -102,7 +102,7 @@
                                             </button>
                                             <form style="display: none;" id="restoreuser{{ $user->id }}"
                                                 action="{{ route('dashboard.users.restore', $user->id) }}"
-                                                method="user">
+                                                method="POST">
                                                 @csrf
                                                 @method('PUT')
                                             </form>
