@@ -94,14 +94,16 @@ class UserController extends Controller
         return redirect()->route('dashboard.users.index')->with('status', 'User deleted successfully.');
     }
 
-    public function restore(User $user)
+    public function restore(string $id)
     {
+        $user = User::onlyTrashed()->findOrFail($id);
         UserService::restore($user);
         return redirect()->route('dashboard.users.index')->with('status', 'User restored successfully.');
     }
 
-    public function forceDelete(User $user)
+    public function forceDelete(string $id)
     {
+        $user = User::onlyTrashed()->findOrFail($id);
         UserService::forceDelete($user);
         return redirect()->route('dashboard.users.index')->with('status', 'User force deleted successfully.');
     }
